@@ -17,22 +17,23 @@ Tone:
 
 
 Test Data for Credit Card Application
-Name	Card Type	Card Number	CCV	Issue Date	Expiration
-Alex Morgan	Visa	4111 1111 1111 1111	123	01/2020	01/2030
-Priya Kumar	MasterCard	5555 5555 5555 4444	456	06/2021	06/2028
-Chen Wei	AmericanExp	3782 822463 10005	3456	09/2022	09/2032
-Maria Lopez	Discover	6011 1111 1111 1117	789	03/2019	03/2029
-John Smith	Diners Club	3056 9309 0259 04	321	12/2023	12/2031
-Amina Yusuf	JCB	3530 1113 3330 0000	222	07/2020	07/2027
-Liam O’Connor	Visa	4111 1111 1111 1234	000	05/2024	05/2025
-Fatima Noor	MasterCard	5105 1051 0510 5100	999	11/2021	11/2021
-David Brown	AmericanExp	3714 496353 98431	12	01/2018	01/2020
-Hiro Tanaka	JCB	3566 1111 1111 1113	111	10/2025	09/2025
-Sara Ahmed	Visa	4111 1111 1111	345	04/2022	04/2032
-Omar Ali	MasterCard	5500 0000 0000 0004	12A	08/2023	08/2026
-Elena Rossi	Discover	6011 0009 9013 9424		02/2022	02/2030
-Noah Miller	Diners Club	3852 0000 0232 37	456	06/2022	
-Sofia Garcia	Visa	4111-1111-1111-1111	555	07/2023	07/2028
+Name        | Card Type     | Card Number           | CCV | Issue Date | Expiration
+-----------------------------------------------------------------------------------
+John Doe    | Visa          | 4111 1111 1111 1111   | 123 | 01/2023    | 01/2030
+Maria Silva | MasterCard    | 5500 0000 0000 0004   | 456 | 12/2022    | 12/2028
+Lee Wong    | Amex          | 3714 496353 98431     | 789 | 05/2024    | 05/2029
+Amina Khan  | Discover      | 6011 0009 9013 9424   | 321 | 07/2021    | 07/2026
+Raj Patel   | Diners Club   | 3056 9309 0259 04     | 654 | 03/2020    | 03/2025
+Elena Petro | JCB           | 3566 0020 2036 0505   | 852 | 09/2023    | 09/2031
+Tom Brown   | Visa          | 4111 1111 1111 1112   | 000 | 11/2023    | 11/2028   <-- Edge: CCV with 000
+Sara Kim    | MasterCard    | 5500 0000 0000 0000   | 999 | 10/2025    | 09/2025   <-- Negative: Exp < Issue
+Ali Reza    | Amex          | 3782 822463 10005     | 12  | 02/2024    | 02/2032   <-- Edge: 2-digit CCV (Amex supports 4, here invalid)
+Mia Lopez   | Visa          | 4111 1111 1111 0000   | 111 | 08/2019    | 08/2021   <-- Negative: Expired card
+Omar Hassan | Discover      | 6011 1111 1111 1117   | 444 | 06/2023    | 06/2030
+Chloe White | JCB           | 3530 1113 3330 0000   | 555 | 01/2022    | 01/2027
+Jack Hill   | MasterCard    | 2223 0000 4840 0011   | 678 | 04/2023    | 04/2035   <-- Edge: MasterCard 2-series BIN
+Fatima Noor | Diners Club   | 3852 0000 0232 37     | 432 | 07/2024    | 07/2027
+Ethan Gray  | Visa          | 0000 0000 0000 0000   | 123 | 01/2025    | 01/2030   <-- Negative: Invalid all-zero card
 
 ✅ Coverage details:
 
@@ -92,4 +93,5 @@ Response:
         "id": "req_01k4pgct85e0d9xvyqp9x7s0nv"
     },
     "service_tier": "on_demand"
+
 }
