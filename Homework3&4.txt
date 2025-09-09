@@ -1,0 +1,95 @@
+Generate test data for credit card applications for different types of cards and conditions
+
+-Prompt
+Context:
+- You are best manual tester writing test data to test credit card application 
+Instruction:
+- [Mandatory] - Consider different types of card
+- [Critical] - Consider all the Positive/negative/Edge cases
+- Test Data should have Name, Card Type, Card Number, CCV, Issue Date, Expiration
+- Test Data should not be biased to Country or Region. It should be global
+Example:
+ - Sanjay|Visa|1234 1234 1234 1234|124|20/2023|20|2030Output:
+- Output: should be in tabular format
+Persona:
+Output:
+Tone:
+
+
+Test Data for Credit Card Application
+Name	Card Type	Card Number	CCV	Issue Date	Expiration
+Alex Morgan	Visa	4111 1111 1111 1111	123	01/2020	01/2030
+Priya Kumar	MasterCard	5555 5555 5555 4444	456	06/2021	06/2028
+Chen Wei	AmericanExp	3782 822463 10005	3456	09/2022	09/2032
+Maria Lopez	Discover	6011 1111 1111 1117	789	03/2019	03/2029
+John Smith	Diners Club	3056 9309 0259 04	321	12/2023	12/2031
+Amina Yusuf	JCB	3530 1113 3330 0000	222	07/2020	07/2027
+Liam O’Connor	Visa	4111 1111 1111 1234	000	05/2024	05/2025
+Fatima Noor	MasterCard	5105 1051 0510 5100	999	11/2021	11/2021
+David Brown	AmericanExp	3714 496353 98431	12	01/2018	01/2020
+Hiro Tanaka	JCB	3566 1111 1111 1113	111	10/2025	09/2025
+Sara Ahmed	Visa	4111 1111 1111	345	04/2022	04/2032
+Omar Ali	MasterCard	5500 0000 0000 0004	12A	08/2023	08/2026
+Elena Rossi	Discover	6011 0009 9013 9424		02/2022	02/2030
+Noah Miller	Diners Club	3852 0000 0232 37	456	06/2022	
+Sofia Garcia	Visa	4111-1111-1111-1111	555	07/2023	07/2028
+
+✅ Coverage details:
+
+Positive cases → Valid card numbers, valid CCV, proper expiry dates.
+
+Negative cases → Expired cards, missing CCV, invalid characters in CCV, too short card number, empty expiration date.
+
+Edge cases → Card expiring this month, issue/expiry mismatch, different lengths (Visa/MasterCard 16 digits, Amex 15 digits, Diners 14 digits), CCV with 3 and 4 digits, CCV = 000, unusual formats with -.
+
+Would you like me to expand this into 30+ rows covering all permutations (valid/invalid per card type) so it can be directly used as a test dataset for execution?
+
+
+JSON Payload:
+
+Json payload:
+{
+  "model": "openai/gpt-oss-120b",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Context:\n- You are best manual tester writing test data to test credit card application\nInstruction:\n- [Mandatory] - Consider different types of card\n- [Critical] - Consider all the Positive/negative/Edge cases\n- Test Data should have Name, Card Type, Card Number, CCV, Issue Date, Expiration\n- Test Data should not be biased to Country or Region. It should be global\nExample:\n - Sanjay|Visa|1234 1234 1234 1234|124|20/2023|20|2030\nOutput:\n- Output should be in tabular format"
+    }
+  ]
+}
+
+
+Response:
+{
+    "id": "chatcmpl-10c1325e-7392-4a12-ae51-f0d17ff3933b",
+    "object": "chat.completion",
+    "created": 1757397023,
+    "model": "openai/gpt-oss-120b",
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "**Test Data for Credit‑Card Application (Global, Positive / Negative / Edge Cases)**  \n\n| # | Name | Card Type | Card Number (spaces for readability) | CCV | Issue Date (MM/YYYY) | Expiration (MM/YYYY) | Scenario |\n|---|------|-----------|----------------------------------------|-----|----------------------|----------------------|----------|\n| 1 | **John Smith** | Visa | 4111 1111 1111 1111 | 124 | 01/2022 | 12/2026 | **Positive** – classic 16‑digit Visa, valid Luhn, normal dates |\n| 2 | **Aisha Khan** | MasterCard | 5555 5555 5555 4444 | 321 | 05/2023 | **09/2024** (current month) | **Positive Edge** – expires this month |\n| 3 | **María García** | American Express | 3782 822463 10005 | 1234 | 03/2021 | 03/2025 | **Positive** – 15‑digit Amex, 4‑digit CCV |\n| 4 | **Li Wei** | Discover | 6011 1111 1111 1117 | 987 | 07/2020 | 07/2028 | **Positive** – valid Discover |\n| 5 | **Oumar Diop** | JCB | 3530 1113 3330 0000 | 654 | 11/2022 | 11/2030 | **Positive** – JCB card |\n| 6 | **Elena Petrova** | UnionPay | 6221 2600 0000 0000 | 111 | 02/2021 | 02/2035 | **Positive** – 16‑digit UnionPay |\n| 7 | **Sofia Rossi** | Diners Club | 3056 9309 0259 04 | 777 | 09/2022 | 09/2027 | **Positive** – 14‑digit Diners Club |\n| 8 | **Carlos Silva** | Visa | 4111 1111 1111 1112 | 123 | 04/2022 | 04/2026 | **Negative** – fails Luhn checksum |\n| 9 | **Ahmed Al‑Masri** | MasterCard | 5111 1111 1111 111 | 456 | 06/2023 | 06/2027 | **Negative** – wrong length (15 digits) |\n|10| **Nina Kowalska** | American Express | 3714 496353 98431 | 12A4 | 08/2021 | 08/2025 | **Negative** – non‑numeric CCV |\n|11| **Tom O’Neil** | Visa | 4012 8888 8888 1881 | 999 | 12/2018 | **10/2022** (already past) | **Negative** – expired card |\n|12| **Yuki Tanaka** | Discover | 6011 0009 9013 9424 | 555 | 01/2025 | 01/2024 | **Negative** – issue date after expiration |\n|13| **Lars Johansson** | JCB | 35AB 1113 3330 0000 | 333 | 03/2022 | 03/2029 | **Negative** – alphabetic characters in card number |\n|14| **Priya Reddy** | Visa | 4000 0566 5566 5556 | 12X | 05/2021 | 05/2026 | **Negative** – non‑numeric CCV |\n|15| **—** (empty) | MasterCard | 5105 1051 0510 5100 | 777 | 07/2020 | 07/2024 | **Negative** – missing name |\n|16| **Fatima Hussein** | UnionPay | 6222 0000 0000 0000 0 | 222 | 09/2023 | 09/2039 | **Positive Edge** – maximum 19‑digit UnionPay |\n|17| **Ivan Petrov** | Visa | 4444 4444 4444 4444 | 444 | 10/2022 | 10/2026 | **Edge** – card number all same digit, still passes Luhn |\n|18| **Léa Moreau** | MasterCard | 2221 0000 0000 0009 | 555 | 02/2023 | **12/2099** (far future) | **Edge** – very distant expiration |\n|19| **Samuel Ndlovu** | Diners Club | 3000 0000 0000 00 | 001 | 04/2024 | **04/2024** (same month) | **Edge** – minimum validity (issue = expiry month) |\n|20| **Maya Patel** | American Express | 3787 3449 3672 001 | 1234 | 01/2024 | 12/2028 | **Positive** – another valid Amex test number |\n\n**Notes on the Scenarios**\n\n| Scenario Type | What It Tests |\n|---------------|---------------|\n| **Positive** | Correct number length, Luhn‑valid, proper CCV length, issue‑date ≤ expiration, future expiration. |\n| **Negative** | Invalid Luhn, wrong length, non‑numeric characters, expired card, issue date after expiration, missing mandatory fields. |\n| **Edge** | Boundary dates (expires this month, same month issue‑expiry), maximum allowed digits (19‑digit UnionPay), extreme future expiration, repetitive digits, minimum validity period. |\n\nAll names are selected from diverse cultures to avoid regional bias, and the card types cover the major global schemes.",
+                "reasoning": "We need to output test data in tabular format, covering different card types, positive/negative/edge cases. Include columns: Name, Card Type, Card Number, CCV, Issue Date, Expiration (maybe month/year). Provide multiple rows.\n\nWe need to consider global names, different card types (Visa, MasterCard, American Express, Discover, JCB, UnionPay, Diners Club). Positive cases: valid numbers, correct length, correct Luhn checksum, proper dates. Negative: invalid numbers (wrong length, fail Luhn), invalid CCV length, expired card, issue date after expiration, future issue date, missing fields, non-numeric, etc. Edge cases: boundary dates (e.g., expiration this month, card number all zeros, max length, min length, etc.)\n\nWe'll produce a table in markdown format. Provide maybe 20 rows covering scenarios.\n\nWe need to ensure not biased to any country: include names from various regions.\n\nLet's design.\n\nCard Number format: Visa 16 digits, starts with 4. MasterCard 16 digits start 51-55 or 2221-2720. Amex 15 digits start 34 or 37. Discover 16 digits start 6011, 65. JCB 16 digits start 3528-3589. UnionPay 16-19 digits start 62. Diners Club 14 digits start 300-305, 36, 38.\n\nCCV: Visa/MasterCard/Discover/JCB/UnionPay: 3 digits. Amex: 4 digits. Diners Club: 3.\n\nIssue Date and Expiration: format maybe MM/YYYY.\n\nWe'll provide both positive and negative.\n\nWe'll include:\n\n1. Valid Visa, future expiration, correct CCV.\n2. Valid MasterCard, edge expiration this month.\n3. Valid Amex, CCV 4 digits.\n4. Valid Discover, etc.\n5. Valid JCB.\n6. Valid UnionPay 19 digits.\n7. Valid Diners Club.\n\nNegative:\n\n8. Visa with invalid Luhn.\n9. MasterCard wrong length.\n10. Amex with 3-digit CCV.\n11. Expired card.\n12. Issue date after expiration.\n13. Non-numeric characters in number.\n14. CCV non-numeric.\n15. Empty name.\n16. Country bias? Not needed.\n\nEdge:\n\n17. Card number all same digit (e.g., 4444...).\n18. Expiration far future (e.g., 12/2099).\n19. Issue date same as expiration month (minimum validity).\n20. Card number at max length for UnionPay (19 digits) valid.\n\nWe'll need to generate plausible Luhn valid numbers. Could use known test numbers: Visa test: 4111 1111 1111 1111 (valid). MasterCard: 5555 5555 5555 4444 (valid). Amex: 3782 822463 10005 (valid). Discover: 6011 1111 1111 1117 (valid). JCB: 3530 1113 3330 0000 (valid). UnionPay: 6222 0000 0000 0000 0? Not sure. Use test: 6221260000000000 (valid). Diners Club: 30569309025904 (valid).\n\nNegative Luhn: modify one digit.\n\nDates: Use format MM/YYYY.\n\nWe'll produce table header.\n\nLet's craft rows.\n\nWe'll ensure varied names: Aisha Khan (Asia), John Smith (US), María García (Spain), Li Wei (China), Oumar Diop (Africa), Elena Petrova (Russia), Sofia Rossi (Italy), Carlos Silva (Brazil), Ahmed Al-Masri (Middle East), etc.\n\nNow produce final."
+            },
+            "logprobs": null,
+            "finish_reason": "stop"
+        }
+    ],
+    "usage": {
+        "queue_time": 0.048576943,
+        "prompt_tokens": 197,
+        "prompt_time": 0.007102787,
+        "completion_tokens": 2100,
+        "completion_time": 4.240618381,
+        "total_tokens": 2297,
+        "total_time": 4.247721168
+    },
+    "usage_breakdown": null,
+    "system_fingerprint": "fp_ed9190d8b7",
+    "x_groq": {
+        "id": "req_01k4pgct85e0d9xvyqp9x7s0nv"
+    },
+    "service_tier": "on_demand"
+}

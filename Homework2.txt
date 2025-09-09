@@ -1,0 +1,147 @@
+Homework Assignment 2:
+Integrate the prompt to your API (using postman) and confirm the response (json)
+Objective: You can integrate prompt + LLM API
+
+Using groq.com
+
+
+      role: system
+      content: 
+		Context: Be the best in class Senior Test Automation Architect to do conversion from Selenium code to Playwright TypeScript code.
+	    Instruction:\n- Implementation guidelines:
+			- Playwright latest version if appropriate
+			- Use TypeScript code
+			- Import required classes
+			- Add required classes and methods
+			- [MANDATORY] Every method should have proper comments above method signature
+			- Do not send any explanation or additional text
+			- Use selectByVisibleText for dropdowns
+			- Highlight the response -Write a code that is easily run in tryplaywright online - [CRITICAL] use right locators starting id, name, class, link text and finally xpath- Format the Playwright code so that it can be run easily typescript - 
+
+			- Example output
+			import { test, expect } from "@playwright/test";
+
+			test('LeafTaps Login', async ({ page }) => {
+			  // Navigate to login page
+			  await page.goto("http://leaftaps.com/opentaps/control/main");
+			  await page.setViewportSize({ width: 1920, height: 1080 });
+
+			  // Enter username
+			  await page.fill("#username", "Demosalesmanager");
+
+			  // Enter password
+			  await page.fill("#password", "crmsfa");
+
+			  // Click Login
+			  await page.click(".decorativeSubmit");
+
+			  // Verify successful login by checking for CRM/SFA link
+			  await expect(page.locator("a:has-text('CRM/SFA')")).toBeVisible();
+
+			  console.log("✅ Login successful, CRM/SFA link is visible");
+			});
+
+
+      role: user
+      content: Generate the Playwright TypeScript code from the below Selenium Code
+				  
+			  test("Create Lead in LeafTaps", async ({ page }) => {
+			  // Step 1: Load the URL
+			  await page.goto("http://leaftaps.com/opentaps/control/main");
+			  await page.setViewportSize({ width: 1920, height: 1080 });
+
+			  // Step 2: Login
+			  await page.locator("#username").fill("DemoSalesManager");
+			  await page.locator("#password").fill("crmsfa");
+			  await page.locator(".decorativeSubmit").click();
+
+			  // Step 3: Verify the title
+			  const title = await page.title();
+			  console.log("Page Title after login:", title);
+			  await expect(page).toHaveTitle(/Leaftaps/);
+
+			  // Step 4: Navigate to CRM/SFA → Create Lead
+			  await page.locator("text=CRM/SFA").click();
+			  await page.locator("text=Create Lead").click();
+
+			  // Step 5: Fill in the form
+			  await page.locator("#createLeadForm_companyName").fill("TestLeaf");
+			  await page.locator("#createLeadForm_firstName").fill("Babu");
+			  await page.locator("#createLeadForm_lastName").fill("Manickam");
+
+			  // Step 6: Select dropdowns
+			  await page.locator("#createLeadForm_dataSourceId").selectOption({ label: "Employee" });
+			  await page.locator("#createLeadForm_marketingCampaignId").selectOption({ value: "9001" });
+
+			  // Step 7: Submit form
+			  await page.locator("input[name='submitButton']").click();
+
+			  // Step 8: Print the new title
+			  const newTitle = await page.title();
+			  console.log("Page Title after lead creation:", newTitle);
+
+			  // Assert navigation happened
+			  await expect(page).toHaveTitle(/View Lead/);
+			});
+
+    },
+
+  "model": "openai/gpt-oss-120b",
+  "temperature": 0,
+  "top_p": 1
+
+
+
+JSON payload
+
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "Context: Be the best in class Senior Test Automation Architect to do conversion from Selenium code to Playwright TypeScript code.\n\nInstruction:\n- Implementation guidelines:\n  - Playwright latest version if appropriate\n  - Use TypeScript code\n  - Import required classes\n  - Add required classes and methods\n  - [MANDATORY] Every method should have proper comments above method signature\n  - Do not send any explanation or additional text\n  - Use selectByVisibleText for dropdowns\n  - Highlight the response -Write a code that is easily run in tryplaywright online - [CRITICAL] use right locators starting id, name, class, link text and finally xpath- Format the Playwright code so that it can be run easily typescript - \n\nExamples:\n\nExample 1:\n\nimport { test, expect } from \"@playwright/test\";\n\ntest('LeafTaps Login', async ({ page }) => {\n  // Navigate to login page\n  await page.goto(\"http://leaftaps.com/opentaps/control/main\");\n  await page.setViewportSize({ width: 1920, height: 1080 });\n\n  // Enter username\n  await page.fill(\"#username\", \"Demosalesmanager\");\n\n  // Enter password\n  await page.fill(\"#password\", \"crmsfa\");\n\n  // Click Login\n  await page.click(\".decorativeSubmit\");\n\n  // Verify successful login by checking for CRM/SFA link\n  await expect(page.locator(\"a:has-text('CRM/SFA')\")).toBeVisible();\n\n  console.log(\"✅ Login successful, CRM/SFA link is visible\");\n});"
+    },
+    {
+      "role": "user",
+      "content": "Generate the Playwright TypeScript code from the below Selenium Code:\n\npackage week2.day1;\n\nimport org.openqa.selenium.By;\nimport org.openqa.selenium.WebElement;\nimport org.openqa.selenium.chrome.ChromeDriver;\nimport org.openqa.selenium.support.ui.Select;\n\nimport io.github.bonigarcia.wdm.WebDriverManager;\n\npublic class CreateLead {\n\tpublic static void main(String[] args) {\n\t\t// Step 0) Setup the chromedriver using webdrivermanager software\n\t\tWebDriverManager.chromedriver().setup();\n\t\t\n\t\t// Step 1) Launch the chrome browser (Class Name -> ChromeDriver)\n\t\tChromeDriver driver = new ChromeDriver();\n\t\t\n\t\t// Step 2) Load the URL (http://leaftaps.com/opentaps/control/main) -> get\n\t\tdriver.get(\"http://leaftaps.com/opentaps\");\n\t\t\n\t\t// Step 3) Maximize the chrome browser\n\t\tdriver.manage().window().maximize();\n\t\t\n\t\t// Step 4) Find the username and type the value (DemoSalesManager)\n\t\tdriver.findElement(By.id(\"username\")).sendKeys(\"DemoSalesManager\");\n\t\t\n\t\t// Step 5) Find the password and type the value (crmsfa)\n\t\tdriver.findElement(By.id(\"password\")).sendKeys(\"crmsfa\");\n\t\t\n\t\t// Step 6) Find the login button and click\n\t\tdriver.findElement(By.className(\"decorativeSubmit\")).click();\n\t\t\n\t\t// Step 7) Verify the title\n\t\tString title = driver.getTitle();\n\t\tSystem.out.println(title);\n\t\t\n\t\t// Step 8) Click CRM/SFA link\n\t\tdriver.findElement(By.linkText(\"CRM/SFA\")).click();\n\t\t\n\t\t// Step 9) Click Create Lead Link\n\t\tdriver.findElement(By.linkText(\"Create Lead\")).click();\n\t\t\n\t\t// Step 10) Find the company name and type the company name\n\t\tdriver.findElement(By.id(\"createLeadForm_companyName\")).sendKeys(\"TestLeaf\");\n\t\t\n\t\t// Step 11) Find the first name and type your name\n\t\tdriver.findElement(By.id(\"createLeadForm_firstName\")).sendKeys(\"Babu\");\n\t\t\n\t\t// Step 12) Find the last name and type your name\n\t\tdriver.findElement(By.id(\"createLeadForm_lastName\")).sendKeys(\"Manickam\");\n\t\t\n\t\t// Step 12 b) Select the Source dropdown with one of the visible text\n\t\tWebElement source = driver.findElement(By.id(\"createLeadForm_dataSourceId\"));\n\t\tSelect dd1 = new Select(source);\n\t\tdd1.selectByVisibleText(\"Employee\");\n\t\t\n\t\t// Step 12 c) Select the marketing campaign with one of the value\n\t\tWebElement marketing = driver.findElement(By.id(\"createLeadForm_marketingCampaignId\"));\n\t\tSelect dd2 = new Select(marketing);\n\t\tdd2.selectByValue(\"9001\");\n\t\t\n\t\t// Step 13) Click Create Lead Button\n\t\tdriver.findElement(By.name(\"submitButton\")).click();\n\t\t\n\t\t// Step 14) Print the new title\n\t\ttitle = driver.getTitle();\n\t\tSystem.out.println(title);\n\t}\n}"
+    },
+  ],
+  "model": "openai/gpt-oss-120b",
+  "temperature": 0,
+  "top_p": 1
+}
+
+Response:
+
+{
+    "id": "chatcmpl-c2dfced9-f422-417f-9cee-d46ae758cb79",
+    "object": "chat.completion",
+    "created": 1757396622,
+    "model": "openai/gpt-oss-120b",
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "```typescript\nimport { test, expect } from '@playwright/test';\n\n/**\n * Test to create a new lead in LeafTaps application.\n */\ntest('Create Lead', async ({ page }) => {\n  // Step 2) Load the URL\n  await page.goto('http://leaftaps.com/opentaps');\n\n  // Step 3) Maximize the browser window (set viewport to a large size)\n  await page.setViewportSize({ width: 1920, height: 1080 });\n\n  // Step 4) Enter username\n  await page.fill('#username', 'DemoSalesManager');\n\n  // Step 5) Enter password\n  await page.fill('#password', 'crmsfa');\n\n  // Step 6) Click the login button\n  await page.click('.decorativeSubmit');\n\n  // Step 7) Verify and print the title after login\n  console.log('Login page title:', await page.title());\n\n  // Step 8) Click the \"CRM/SFA\" link\n  await page.click('a:has-text(\"CRM/SFA\")');\n\n  // Step 9) Click the \"Create Lead\" link\n  await page.click('a:has-text(\"Create Lead\")');\n\n  // Step 10) Enter company name\n  await page.fill('#createLeadForm_companyName', 'TestLeaf');\n\n  // Step 11) Enter first name\n  await page.fill('#createLeadForm_firstName', 'Babu');\n\n  // Step 12) Enter last name\n  await page.fill('#createLeadForm_lastName', 'Manickam');\n\n  // Step 12b) Select \"Employee\" from Source dropdown by visible text\n  await page.selectOption('#createLeadForm_dataSourceId', { label: 'Employee' });\n\n  // Step 12c) Select marketing campaign by value \"9001\"\n  await page.selectOption('#createLeadForm_marketingCampaignId', { value: '9001' });\n\n  // Step 13) Click the Create Lead button\n  await page.click('button[name=\"submitButton\"]');\n\n  // Step 14) Print the new page title after lead creation\n  console.log('After creating lead title:', await page.title());\n});\n```",
+                "reasoning": "We need to output Playwright TypeScript code that replicates the Selenium steps. Must include comments above each method signature. Since it's a single test, we can write a test function using test('Create Lead', async ({ page }) => { ... }). Use proper locators: id, name, class, link text (Playwright doesn't have linkText directly but can use text selector). Use selectByVisibleText for dropdowns: Playwright's selectOption can select by label. Use selectOption with label: await page.selectOption('#createLeadForm_dataSourceId', { label: 'Employee' }); For value: await page.selectOption('#createLeadForm_marketingCampaignId', { value: '9001' });\n\nAdd viewport size maybe. Use expect for title? Not required but can print.\n\nAdd comments above method signature: Since we have only test function, we need comment above test function signature.\n\nAlso need import { test, expect } from '@playwright/test';\n\nMake code runnable in tryplaywright online.\n\nAdd console.log for titles.\n\nAdd proper comments.\n\nLet's craft final answer."
+            },
+            "logprobs": null,
+            "finish_reason": "stop"
+        }
+    ],
+    "usage": {
+        "queue_time": 0.08846541,
+        "prompt_tokens": 1060,
+        "prompt_time": 0.038937901,
+        "completion_tokens": 686,
+        "completion_time": 1.368414049,
+        "total_tokens": 1746,
+        "total_time": 1.40735195
+    },
+    "usage_breakdown": null,
+    "system_fingerprint": "fp_3a688838c3",
+    "x_groq": {
+        "id": "req_01k4pg0nwzep09q2jdrtw2g0y6"
+    },
+    "service_tier": "on_demand"
+}

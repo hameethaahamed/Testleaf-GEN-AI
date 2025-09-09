@@ -1,0 +1,82 @@
+Homework Assignment 1:
+Question:
+- I am going to share plain selenium java code
+- You are going to write prompt to convert selenium to playwright typescript
+Notes: Hint: Use ICE POT framework to generate !! 
+- The selenium code should be working code 
+https://github.com/TestLeafInc/TestLeafSeleniumTraining
+
+- Prompt (Chat GPT)
+
+	- Context:
+		- You are AI assistant to convert Selenium code to Playwright typescript 
+		- Below is the selenium code and example output
+	- Instruction
+		- Create a typescript from the given Selenium java code
+		- Instead of Java main method  - use test method in Playwright typescript
+		- Consider the waits and Make sure you choose correct and latest working locator
+
+ - example Output for Prompt above
+import { test, expect } from '@playwright/test';
+
+test('Create Lead in Leaftaps', async ({ page }) => {
+  // Step 1: Load the URL
+  await page.goto('http://leaftaps.com/opentaps/control/main');
+  await page.setViewportSize({ width: 1600, height: 900 });
+
+  // Step 2: Login
+  await page.locator('#username').fill('DemoSalesManager');
+  await page.locator('#password').fill('crmsfa');
+  await page.locator('.decorativeSubmit').click();
+
+  // Step 3: Verify the title
+  const title = await page.title();
+  console.log('Page Title after login:', title);
+  await expect(page).toHaveTitle(/Leaftaps/);
+
+  // Step 4: Navigate to CRM/SFA → Create Lead
+  await page.locator('text=CRM/SFA').click();
+  await page.locator('text=Create Lead').click();
+
+  // Step 5: Fill in the form
+  await page.locator('#createLeadForm_companyName').fill('TestLeaf');
+  await page.locator('#createLeadForm_firstName').fill('Babu');
+  await page.locator('#createLeadForm_lastName').fill('Manickam');
+
+  // Step 6: Select dropdowns
+  await page.locator('#createLeadForm_dataSourceId').selectOption({ label: 'Employee' });
+  await page.locator('#createLeadForm_marketingCampaignId').selectOption({ value: '9001' });
+
+  // Step 7: Submit form
+  await page.locator('input[name="submitButton"]').click();
+
+  // Step 8: Print the new title
+  const newTitle = await page.title();
+  console.log('Page Title after lead creation:', newTitle);
+
+  // Assert navigation happened
+  await expect(page).toHaveTitle(/View Lead/);
+});
+
+
+- Once you convert, you need to copy to this URL and run as a process of validating the output code !
+https://try.playwright.tech/?l=playwright-test
+
+
+
+Answer:
+
+Output
+Logs
+
+Running 1 test using 1 worker
+
+Page Title after login: Leaftaps - TestLeaf Automation Platform
+Page Title after lead creation:
+✓ 1 example.spec.ts:3:5 › Create Lead in Leaftaps (15.1s)
+
+1 passed (17.1s)
+Files
+trace.zip - Open in Trace Viewer
+
+Duration of 18189 ms with Playwright version 1.53.1.
